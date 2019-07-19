@@ -1,0 +1,8 @@
+.test-class {	font-size: 30px; } /* should deleted by purgecss */
+
+.js_test-class { font-size: 12px; } /* should skipped by purgecss */
+.js_test-class2 { font-size: 14px; } /* should skipped by purgecss */
+
+.active_test-class { display: block; } /* should skipped by purgecss */
+.active { display: block; } /* should skipped by purgecss */
+

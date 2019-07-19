@@ -1,0 +1,26 @@
+// -------TriAngle------
+.triangle {
+  position: relative;
+}
+
+.triangle::before,
+.triangle::after {
+  content: ''; 
+  position: absolute; 
+  left: 50%;
+  transform: translateX(-50%);
+  border: 10px solid transparent;
+}
+.triangle-top::before {
+  bottom: 100%;
+  border-bottom: 15px solid;
+  border-bottom-color: #000;
+}
+
+.triangle-bottom::before,
+.triangle-bottom::after {
+  top: 100%;
+  border-top: 15px solid;
+  border-top-color: #000;
+}
+

@@ -1,0 +1,23 @@
+table {
+	width: 100%;
+
+	thead {
+		th {
+			font-weight: 700;
+		}
+		tr {line-height: 2.2rem;}
+	}
+
+	tr {
+		line-height: 1.7rem;
+		
+		& > td {
+			padding: 7px 0;
+		}
+		border-bottom: 1px solid #ccc;
+	}
+
+	tr:last-child {
+		border: none;
+	}
+}

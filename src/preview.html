@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>title</title>
+  <!--  -->
+  @@include('templateHtml/head.html')
+  <!--  -->
+</head>
+
+<body>
+  <style>
+    .wgt-generate {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #000;
+    }
+
+    .wgt-generate-item__label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wgt-generate__input {
+      max-width: 360px;
+      margin-left: 20px;
+      height: 35px;
+      border: 1px solid #dad8d8;
+      box-sizing: border-box;
+      padding: 1px 12px;
+      width: 100%;
+    }
+
+    .wgt-generate-item__label span {
+      min-width: 300px;
+    }
+
+    .wgt-generate-item + .wgt-generate-item {
+      margin-top: 20px;
+    }
+
+    .wgt-generate-render {
+      margin-top: 20px;
+    }
+
+    .wgt-generate-render div + div {
+      margin-top: 15px;
+    } 
+ 
+    .wgt-generate__button {
+      padding: 6px 12px;
+      border: solid 1px #282828;
+      color: #282828;
+      background: transparent;
+
+      border-radius: 2px;
+      transition-property: background-color, color;
+      transition-duration: 0.2s;
+      transition-timing-function: ease-in-out;
+
+      cursor: pointer;
+    } 
+
+    .wgt-generate__button:hover {
+      background: #282828;
+      color: #fff;
+      outline: 0;
+    }
+  </style>
+
+  <div class="mainWrapper">
+
+    <div class="contentWrapper">
+      <!--  -->
+      @@include('templateHtml/header.html', { "home": "active" })
+      <!--  -->
+
+      <!-- Start of page code insertion here -->
+      <div id="preview" class="preview page">
+      
+          <form class="wgt-generate">
+            <div class="wgt-generate-item">
+              <label class="wgt-generate-item__label">
+                <span>Set personal key (IWRBGKR)</span>
+                <input class="wgt-generate__input" name="key" type="text" required>
+              </label>
+            </div>
+
+            <div class="wgt-generate-item">
+              <label class="wgt-generate-item__label">
+                <span>Set quantity of Elements</span>
+                <input class="wgt-generate__input" name="quantity" type="text" required>
+              </label>
+            </div>
+
+            <div class="wgt-generate-item">
+              <button class="wgt-generate__button">Generate</button>  
+            </div>
+
+            <div class="wgt-generate-render">
+              <div class="wgt-generate-render__link"></div>
+              <div class="wgt-generate-render__script"></div>
+
+            </div>
+
+          </form>
+
+      </div>  
+
+      <!-- End of page code insertion here -->
+
+    </div>
+    <!--  -->
+    @@include('templateHtml/footer.html')
+    <!--  -->
+  </div>
+  <!--  -->
+  @@include('templateHtml/scripts.html')
+  <!--  -->
+  <script>
+    (function() {
+      const keyInp = document.querySelector('.wgt-generate__input[name=key]');
+      const quantityInp = document.querySelector('.wgt-generate__input[name=quantity]');
+      const generateForm = document.querySelector('.wgt-generate');
+      const forGeneratedLink = document.querySelector('.wgt-generate-render__link');
+      const forGeneratedScript = document.querySelector('.wgt-generate-render__script');
+
+      generateForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        let keyInpVal = keyInp.value;
+        let quantityInpVal = quantityInp.value;    
+        
+        let generatedLink = `&lt;a data-wgt-do="wgt" data-wgt-key="${keyInpVal}" data-wgt-quantity="${quantityInpVal}"&gt;&lt;/a&gt;`;
+        forGeneratedLink.innerHTML = generatedLink;
+
+        forGeneratedScript.innerHTML = `&lt;script type="text/javascript" src="https://jumpy-trip.surge.sh/js/index.min.js"&gt;&lt;/script&gt;`;        
+      });
+    })();
+  </script>
+</body>
+
+</html>

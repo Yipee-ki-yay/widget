@@ -1,0 +1,130 @@
+.standard-form {
+	.form-section-title {
+		font-size: 20px;
+		// font-weight: 500;
+	}
+	.form-section {
+		& + .form-section {
+			padding-top: 30px;
+			margin-top: 30px;
+			border-top: 1px solid $borderColor;
+		}
+	}
+
+	label,
+	.label {
+		display: block;
+		margin-bottom: 5px;
+		font-size: $labelFontSize;
+		font-weight: 700;
+		text-transform: uppercase;
+
+		span {
+			font-size: 0.8em;
+			color: $descriptionTextColor;
+			text-transform: none;
+		}
+	}
+
+	.form-title {
+		font-family: $secondaryFont;
+		font-size: $formTitleFontSize;
+		// margin-bottom: 15px;
+		& + * {margin-top: 15px;}
+	}
+
+	.formRow {
+		input + input {margin-top: 25px;}
+		select + select {margin-top: 25px;}
+
+		// &.flex {flex-direction: column;}
+
+		.formBlock {
+			box-sizing: border-box;
+		}
+	}
+
+	.checkbox {
+		input {
+			width: 15px;
+			height: auto;
+			display: inline-block;
+		}
+		label {
+			display: inline-block;
+			border: none;
+			margin-bottom: 0;
+			margin-left: 5px;
+		}
+	}
+
+	.formBlock + .formBlock {margin-top: 15px;}
+
+	.formRow + .formRow {
+		margin-top: 25px;
+	}
+
+	.submitButtonWrapper {
+		margin-top: 20px;
+	}
+
+	.customSelect {
+		position: relative;
+
+		select {
+			text-overflow: ellipsis;
+			width: 100%;
+			font-size: 13px;
+			text-transform: uppercase;
+			background-color: transparent;
+			appearance: none;
+			position: relative;
+			// background: url("../img/icons/angle.svg") no-repeat 95% 52.5%;
+			// transform: rotate(90deg);
+			background-size: 14px;
+			padding-right: 40px;
+
+			&:active + .icomoon {
+				transform: rotate(-90deg);
+			}
+		}
+
+		.icomoon {
+			position: absolute;
+			right: 20px;
+			top: 35%;
+			transform: rotate(90deg);
+			font-size: 16px;
+			// color: $thirdFontColor;
+			transition: transform 0.4s;
+		}
+	
+	}
+
+
+	@media (min-width: 767px) {
+		/* .formRow {
+			&.flex {flex-direction: row;}
+		
+			.formBlock {
+				flex-basis: 50%;
+			}
+		} */
+
+		.formBlock + .formBlock {
+			margin-top: 0;
+			padding-left: 15px;
+		}
+	}
+
+	@media (min-width: 991px) {
+		
+
+		label,
+		.label {
+			
+			font-size: $labelFontSize992;
+		}
+
+	}
+}

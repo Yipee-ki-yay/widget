@@ -1,0 +1,72 @@
+.flex-table {
+	border-top: 1px solid $borderColor;
+	border-right: 1px solid $borderColor;
+
+	.tableRow {
+		// display: flex;
+
+		border-bottom: 1px solid $borderColor;
+		// padding: 0 10px;
+	}
+
+	.tableHead {
+		display: none;
+		.tableCell {
+			// font-weight: bold;
+			font-family: $titleFont;
+			font-size: 12px;
+			text-transform: uppercase;
+		}
+	}
+
+	.tableCell {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		padding: 10px;
+		border-left: 1px solid $borderColor;
+		font-size: 12px;
+
+		& > div {width: 100%;}
+
+
+		& > span {
+			// display: table-cell;
+			vertical-align: middle;
+		}
+	}
+
+
+	@media (min-width: 991px) {
+
+		.tableHead {display: block;}
+
+		.tableRow {
+			display: flex;
+					
+			// &:nth-child(n+2) {
+				.cellTitle {display: none!important;}
+			// } 		
+		}
+		
+		.tableCell {
+		
+		} 
+	}
+
+
+	@media (min-width: 1279px) {
+		/* .tableCell {
+		
+			& + .tableCell {
+		
+				& > div {
+					padding-left: 15px!important;
+				}
+			}
+		
+		} */
+	}
+
+}

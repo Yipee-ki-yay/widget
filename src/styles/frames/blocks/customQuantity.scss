@@ -1,0 +1,92 @@
+.custom-quantity {
+  position: relative;
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button
+  {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number]
+  {
+    -moz-appearance: textfield;
+  }
+
+  input {
+    width: 45px;
+    height: $formElementsHeight;
+    line-height: 1.65;
+    float: left;
+    display: block;
+    padding: 0;
+    margin: 0;
+    padding-right: 30px;
+    text-align: right;
+    border: 1px solid $formElementsBorderColor;
+    transition: border 0.3s linear;
+  }
+
+  input:focus {
+    border-color: $formElementsFocusBorderColor;
+  }
+
+  .quantity-nav {
+    float: left;
+    position: relative;
+    height: $formElementsHeight;
+  }
+
+  .quantity-button {
+    position: absolute;
+    height: 50%;
+
+    cursor: pointer;
+    width: 20px;
+    text-align: center;
+    color: #333;
+    font-size: 13px;
+    line-height: 1.7;
+    transform: translateX(-100%);
+    user-select: none;
+    color: #fff;
+
+    &:after {
+      content: ''; 
+      position: absolute;
+      border: 4px solid transparent;
+      left: 50%;
+    }
+  }
+
+  .quantity-button.quantity-up {
+    top: 0;
+
+    &:after {
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-bottom: 5px solid #ccc;
+    }
+  }
+  .quantity-button.quantity-up:hover {
+    &:after {
+      border-bottom-color: #000;
+    }
+  }
+
+  .quantity-button.quantity-down {
+    bottom: 0;
+
+    &:after {
+      bottom: 0;
+      transform: translate(-50%, -50%);
+      border-top: 5px solid #ccc;
+    }
+  }
+  .quantity-button.quantity-down:hover {
+    &:after {
+      border-top-color: #000;
+    }
+  }
+
+}

@@ -1,0 +1,123 @@
+.menuMainWrapper {
+
+	display: flex;
+	flex-direction: row;
+
+	.navMenuWrapper {
+		position: absolute;
+		top: 100%;
+		width: 100%;
+		background-color: inherit;
+		z-index: $zMobileMenu;
+
+		.navMenuContainer {
+			display: flex;
+			flex-direction: column;
+			background-color: inherit;
+
+			.menu-section + .menu-section {
+				margin-top: 13px;
+				// border-top: 1px solid $menuBorderColor;
+				padding-top: 13px;
+			}
+
+			.menu-section:last-child {
+				border: 0;
+			}
+		}
+
+		ul.navMenu {
+			display: flex;
+			flex-direction: column;
+
+			& > li {
+					width: 100%;
+
+					a, span {cursor: pointer;}
+
+					& + li {margin-top: 20px;}
+					// &.active {color: $primaryColor;}
+					// &:hover {
+					// 	a {color: $primaryColor}
+					// }
+			}
+		}
+	}
+
+
+	button.mobileMenuButton {
+		margin-left: auto;
+		z-index: $zMobileMenuButton;
+	}
+
+
+	/* ======Media Queries===== */
+
+	@media (min-width: $collapseBefore) {
+		.navMenuWrapper {
+			position: static;
+			width: auto;
+			// overflow: hidden;
+			
+			&.height {height: auto;}
+			&.scale {transform: scaleY(1)}
+			&.opacityAnimate > div {opacity: 1;}
+			&.right {}
+
+			.navMenuContainer {
+				flex-direction: row;
+				align-items: center;
+
+				.menu-section + .menu-section {
+					margin-top: 0;
+					padding-top: 0;
+					border: 0;
+				}
+			}
+
+			ul.navMenu {
+				flex-direction: row;
+
+				.submenuWrapper {
+					height: auto!important;
+					position: absolute;
+					background-color: inherit;
+				}
+
+				& > li {
+					// line-height: $navMenuHeight - 1;
+					padding: 0 10px;
+					width: auto;
+					
+					a {
+						display: inline-block;
+						line-height: $headerHeight;
+						color: $headerColor;
+					}
+					& + li {
+						margin-top: 0;
+						// margin-left: 5px;
+					}
+
+				}
+			}
+
+			.rightBlock {
+				margin-left: auto;
+			}
+		}
+		
+	}
+
+	@media (min-width: 1279px) {
+		.navMenuWrapper {
+			ul.navMenu {
+				& > li {
+					padding: 0 15px;
+				}
+			}
+		}
+	}
+	
+
+}

@@ -1,0 +1,143 @@
+// ======Main Options=======
+/* -----Color------- */
+$primaryColor: #01C4FC;  
+$secondaryColor: #00024D; 
+$tertiaryColor: #E8E8E8;	
+$fourthColor: #252829; 
+$fifthColor: #1B51A7;
+
+$black: #000;
+$white: #fff;
+$gray: #999;
+
+/* -----Fonts-----*/
+$pageFontSize: 14px;
+$mainFont: 'Montserrat', sans-serif;
+$secondaryFont: "Arial";
+$tertiaryFont: "Arial";
+
+$mainFontColor: #000;
+$secondaryFontColor: $white;
+$descriptionTextColor: #6A6A6A;
+$subDescriptionColor: rgba(13, 13, 15, 0.5);
+
+$titleFont: $mainFont;
+$titleFontSize: 32px;
+$titleFontSizeLaptop: 34px;
+$titleFontSizeDesktop: 36px;
+
+$sectionTitleFontSize: 20px;
+$sectionTitleFontSizeLaptop: 20px;
+$sectionTitleFontSizeDesktop: 20px;
+
+$articleTitleFontSize: 16px;
+$articleTitleFontSizeLaptop: 16px;
+$articleTitleFontSizeDesktop: 16px;
+
+
+$sectionBlockTitleFontSize: 24px;
+$descriptionTitleFontSize: 20px;
+
+/* ======Components Options======= */
+/* ------Color---------- */
+$mainBackgroundColor: #ededed;
+
+$headerColor: #fff;
+$headerFontColor: #000;
+
+$headerBottomColor: $secondaryColor;
+$headerBottomFontColor: #fff;
+
+$footerColor: $secondaryColor;
+$footerFontColor: #fff;
+
+$mobileMenuColor: $primaryColor;
+
+$formElementsBorderColor: #DAD8D8;
+$formElementsFocusBorderColor: $primaryColor;
+
+$borderColor: #EDEded;
+
+$linksColor: $fourthColor;
+
+$darkOverlayColor: rgb(0,0,0);
+
+
+/* ------Fonts----------*/
+// $h1FontSize: 40px;
+// $h2FontSize: 24px;
+// $h3FontSize: 20px;
+$smaller: 12px;
+$normal: 14px;
+$larger: 16px;
+$large: 18px;
+$big: 24px;
+
+$descriptionLineHeight: 24px;
+$descriptionFontSize: 16px;
+
+
+/* ------Sizes----------*/
+$topSectionHeaderHeight: 60px;
+$headerHeight: 50px;
+$pageMaxWidth: 1920px;
+
+$formElementsHeight: 40px; 
+
+$standardButtonHeight: $formElementsHeight - 2px;
+
+// $navMenuHeight: 90px;
+
+/* ------Margins/Paddings------ */
+
+// ---Optional (page-grid)-----
+$containerPadding: 12px;
+$containerPaddingDesktop: 15px;
+
+$containerWidth: 760px;
+$containerWidthTablet: 980px;
+$containerWidthLaptop: 1170px;
+$containerWidthDesktop: 1540px;
+
+$sectionMarginTopMobile: 20px;
+$sectionMarginTopTablet: 25px;
+$sectionMarginTopLaptop: 30px;
+$sectionMarginTopDesktop: 35px;
+
+$articleMarginMobile: 10px;
+$articleMarginTablet: 10px;
+$articleMarginLaptop: 16px;
+$articleMarginDesktop: 16px;
+
+// ---Optional (collapse menu)-----
+$collapseBefore: 991px;  // page width when menu should collapse
+
+// ---Optional (form-grid)-----
+$formTitleFontSize: 1.25rem;
+$labelFontSize: 14px;
+
+/* ------Z-index-------- */
+$zMobileMenu: 1000;
+$zMobileMenuButton: $zMobileMenu + 10;
+
+$pageOverlayZIndex: $zMobileMenu - 50;
+$darkOverlayZIndex: $pageOverlayZIndex - 100;
+
+$zPopup: $zMobileMenu + 200;
+$zPopupDarkOverlay: $zPopup - 50;
+
+$imageIndex: 10;
+$gradientIndex: $imageIndex + 5;
+$captionIndex: $gradientIndex + 5;
+$dotsIndex: $captionIndex + 5;
+
+// ----------Transitions-------
+$linksTransition: 0.3s;
+$formTransitions: 0.3s;
+$animationTransitions: 0.4s;
+
+
+
+
+
+
