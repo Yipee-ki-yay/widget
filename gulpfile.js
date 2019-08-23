@@ -33,6 +33,7 @@ imagemin                = require('gulp-imagemin'), // Minify images
 notify                  = require('gulp-notify'), // Tell about error during task processing
 pngquant                = require('imagemin-pngquant'), // Imagemin plugin for png
 rename                  = require('gulp-rename'), // Rename files
+replace                 = require('gulp-replace'),
 size                    = require('gulp-size');
 
 
@@ -236,6 +237,7 @@ gulp.task('buildProd:html', function () {
         .pipe(fileInclude( {prefix: '@@', basepath: '@file'} ))
         // .pipe(htmlhint())
         // .pipe(htmlhint.reporter())
+        .pipe(replace('IWRBGKR', 'IWZJMLM'))
         .pipe(gulp.dest(path.buildProd.html))
         .pipe(size({ title: 'html size =' }))
 });
@@ -249,6 +251,7 @@ gulp.task('buildProd:js', function () {
         })
         .pipe(uglify())
         .pipe(rename( {suffix: '.min'} ))
+        .pipe(replace('https://api.dev.vouch4.me/v1/widget', 'https://api.vouch4.me/v1/widget'))
         .pipe(gulp.dest(path.buildProd.js))
         .pipe(size({ title: 'js size =' }))
 });
@@ -271,13 +274,12 @@ gulp.task('buildProd:css', function () {
 
 gulp.task('buildProd:cssWgt', function () {
     return gulp.src([path.src.scssWgt]) 
-        .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss(postcssConfig))
         .pipe(cssnano({zindex: false}))
         .pipe(rename({ suffix: '.min' }))
-        .pipe(sourcemaps.write())
         .pipe(gulp.dest(path.buildProd.css))
+        .pipe(size({ title: 'styles size =' })) 
 });
 
 gulp.task('copyProd:css', function () {

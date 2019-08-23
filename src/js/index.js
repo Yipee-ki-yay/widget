@@ -6,17 +6,21 @@ document.addEventListener("DOMContentLoaded", function() {
 	wgt = (function(window, document) {
 		const win = window,
 					doc = document,
+					html = doc.querySelector('html'),
 					head = doc.querySelector('head'),
+					body = doc.querySelector('body'),
 					widgetTarget = doc.querySelector('a[data-wgt-do]'),
 					widgetTargetContainer = widgetTarget.parentNode,
 					widgetTargetKey = widgetTarget.getAttribute('data-wgt-key'),
 					widgetTargetQuantity = widgetTarget.getAttribute('data-wgt-quantity'),
+					isHideWidgetLogo = widgetTarget.getAttribute('data-wgt-hide-logo'),
+					isHideWidgetBorder = widgetTarget.getAttribute('data-wgt-hide-border'),
 					pathArray = wgtCurrentScript.src.split( '/' ),
 					protocol = pathArray[0],
 					host = pathArray[2],
 					baseUrl = protocol + '//' + host,
 					app = {};
-			
+
 		let getLimit = widgetTargetQuantity, 
 				getOffset = 0,
 				throttled = false,
@@ -35,7 +39,8 @@ document.addEventListener("DOMContentLoaded", function() {
 				newItemsData = null,
 				globOffset = 0,
 				msnry = null,
-				isShowAddMoreBtn = null;
+				isShowAddMoreBtn = null,
+				spinner = null;
 
 		app.settings = {
 			"pathToStyle": `${baseUrl}/css/wgt.min.css`,
@@ -46,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		class Wgtapi {
 			constructor() {
 				this._baseUrl = 'https://api.dev.vouch4.me/v1/widget'; 
+				// this._baseUrl = 'https://api.vouch4.me/v1/widget'; 
 			}
 
 			getResource(url) {
@@ -79,7 +85,8 @@ document.addEventListener("DOMContentLoaded", function() {
 				popupBtn = doc.querySelector('.wgt-btn-popup-open');
 				popupCloseBtn = doc.querySelector('.wgt-close-modal');
 				popupOverlay = doc.querySelector('.wgt-overlay');
-				addMoreItemsBtn = doc.querySelector('.wgt-add-more-btn');			
+				addMoreItemsBtn = doc.querySelector('.wgt-add-more-btn');
+				spinner = doc.querySelector('.spinner');
 			},
 
 			getItemsData(callback, limit = 20, offset = 0) {
@@ -214,10 +221,32 @@ document.addEventListener("DOMContentLoaded", function() {
 				}); 
 			},
 
+			setAnswer(content) {
+				const answerItem = content.questions.filter((el) => {
+					if ( el.text.includes('comment') ) {
+						return el;
+					}
+				});
+				return answerItem[0] ? answerItem[0].answer : '';
+			},
+
+			setRating(content) {
+				const ratingItem = content.questions.filter((el) => {
+					if ( el.text.includes('rating') ) {
+						return el;
+					}
+				});
+				return ratingItem[0] ? ratingItem[0].answer : '';
+			},
+
 			HTMLWgtLayout() {
+				let className = '';
+				if ( isHideWidgetBorder !== 'true' ) 
+					className += 'wgt--border';
+
 				return `
-					<div class="wgt">
-						${fn.HTMLWgtHeaderForMobile()}
+					<div class="wgt ${className}">
+						${fn.HTMLWgtHeader()}
 						<div class="container-multi-wgt-in-row">					
 							${fn.HTMLWgtHelpersItemsClassElems()}
 							${fn.HTMLWgtGuttersSizer()}
@@ -229,6 +258,15 @@ document.addEventListener("DOMContentLoaded", function() {
 						<div class="wgt-popup">
 							${fn.HTMLWgtPopup(0)}
 						</div>
+						${fn.HTMLWgtCloseModal()}
+					</div>
+				`;
+			},
+
+			HTMLWgtSpinner() {
+				return `
+					<div class="wgt-spinner-wrapper">
+						<img src="${baseUrl}/img/spinner.svg" alt="" class="wgt-spinner">
 					</div>
 				`;
 			},
@@ -251,21 +289,21 @@ document.addEventListener("DOMContentLoaded", function() {
 				`;
 			},
 
-			HTMLWgtHeaderForMobile() {
-				let hiddenClass = '';
-				if (widgetContainerWidth > 576) {
-					hiddenClass = 'wgt--mobile';
-				} 
+			HTMLWgtHeader() {
+				if ( isHideWidgetLogo === 'true' ) {
+					return '';
+				}
+
 				return `
-					<header class="wgt-header wgt-header--one-in-row ${hiddenClass}">
-						<a class="wgt-header__link" href="#">
+					<div class="wgt-header wgt-header--one-in-row">
+						<a class="wgt-header__link" href="https://vouch4.me">
 							<img class="wgt-header__img" src="${baseUrl}/img/vouch-icon.jpg" alt="">
 						</a>
 						<div class="wgt-header__text">
 							<div class="wgt-header__title">Vouch</div>
 							<div class="wgt-header__subtitle">Official reviews</div>
 						</div>
-					</header>	
+					</div>	
 				`;
 			},
 
@@ -274,21 +312,24 @@ document.addEventListener("DOMContentLoaded", function() {
 					const { content, linkeeProfile, linkerProfile, humanTime } = el;
 					const fullName = linkeeProfile.firstName + ' ' + linkeeProfile.lastName;
 					const footerFullName = linkerProfile.firstName + ' ' + linkerProfile.lastName;
+					
+					const answer = fn.setAnswer(content);
+					const rating = fn.setRating(content);
 
 					return `
 						<div class="wgt-item" data-id=${idx + globOffset}>
-							<header class="wgt-item-header">
+							<div class="wgt-item-header">
 								<img src="${content.coverPic}" alt="" class="wgt-item-header__img">
 								<div class="wgt-item-header__avatar-wrap">
 									<img src="${linkeeProfile.profilePic}" alt="" class="wgt-item__avatar">
 									<div class="wgt-item-header__name">${fullName}</div>
 								</div>
 								<div class="wgt-item-header__descr">${content.title}</div>
-							</header>
+							</div>
 				
-							<footer class="wgt-item-footer">
+							<div class="wgt-item-footer">
 								<div class="wgt-item-footer__descr">
-									${content.questions[5].answer}
+									${answer}
 								</div>   
 								
 								<div class="wgt-item-footer__time-wrap">
@@ -302,12 +343,12 @@ document.addEventListener("DOMContentLoaded", function() {
 										<div class="wget-rating-wrapper">
 											<div class="wgt-item-header__name">${footerFullName}</div>
 											<div class="wget-rating">
-												${fn.HTMLWgtStars(content.questions[6].answer)}
+												${fn.HTMLWgtStars(rating)}
 											</div>
 										</div>
 									</div>
 								</div>
-							</footer>
+							</div>
 				
 							<button class="wgt-btn-popup-open"></button>
 						</div>
@@ -389,36 +430,39 @@ document.addEventListener("DOMContentLoaded", function() {
 				const { content, linkeeProfile, linkerProfile } = currentElement;
 				const fullName = linkeeProfile.firstName + ' ' + linkeeProfile.lastName;
 				const footerFullName = linkerProfile.firstName + ' ' + linkerProfile.lastName;
+
+				const answer = fn.setAnswer(content);
+				const rating = fn.setRating(content);
 							
 				return `
 					<div class="wgt-modal">
-						<header class="wgt-item-header">
+						<div class="wgt-item-header">
 							<img src="${content.coverPic}" alt="" class="wgt-item-header__img">
 							<div class="wgt-item-header__avatar-wrap">
 								<img src="${linkeeProfile.profilePic}" alt="" class="wgt-item__avatar">
 								<div class="wgt-item-header__name">${fullName}</div>
 							</div>
 							<div class="wgt-item-header__descr">${content.title}</div>
-						</header>
+						</div>
 						
-						<article class="wgt-article">
-							<header class="wgt-article-header">
+						<div class="wgt-article">
+							<div class="wgt-article-header">
 								<div class="wgt-item-footer__rating">
 									<div class="wgt-item-header__avatar-wrap">
 										<img src="${linkerProfile.profilePic}" alt="" class="wgt-item__avatar">
 										<div class="wget-rating-wrapper">
 											<div class="wgt-item-header__name">${footerFullName}</div>
 											<div class="wget-rating">
-												${fn.HTMLWgtStars(content.questions[6].answer)}
+												${fn.HTMLWgtStars(rating)}
 											</div>
 										</div>
 									</div>
 								</div>
-							</header>
+							</div>
 			
 							<div class="wgt-article-text">
 								<div class="wgt-article__descr">
-									${content.questions[5].answer}
+									${answer}
 								</div>
 			
 								${ fn.HTMLWgtQuestionPoint(content.questions) }
@@ -427,12 +471,17 @@ document.addEventListener("DOMContentLoaded", function() {
 										
 							${ fn.HTMLWgtLocation(content) }          
 							${ fn.HTMLWgtPopupTags(content) }          
-						</article>
+						</div>
 			
-						<button class="wgt-close-modal">
-							<span class="wgt-close-modal__text">Back</span>
-						</button>
 					</div>
+				`;
+			},
+
+			HTMLWgtCloseModal() {
+				return `
+					<button class="wgt-close-modal">
+						<span class="wgt-close-modal__text">Back</span>
+					</button>
 				`;
 			},
 
@@ -510,6 +559,16 @@ document.addEventListener("DOMContentLoaded", function() {
 				});
 			},
 
+			addSpinnerAfterWidgetTarget(callback) {
+				let spinner = document.createElement('div');
+				spinner.className = 'spinner';
+				spinner.innerHTML += fn.HTMLWgtSpinner();
+				widgetTargetContainer.style.position = 'relative';
+				widgetTargetContainer.style.minHeight = '200px';
+				widgetTargetContainer.appendChild(spinner);
+				callback();
+			},
+
 			addStyleToHead(callback) {
 				fn.appendTagToHead(fn.createStyle(app.settings.pathToStyle, callback));
 			},
@@ -525,11 +584,17 @@ document.addEventListener("DOMContentLoaded", function() {
 			togglePopup() {
 				popup.classList.toggle('open');
 				popupOverlay.classList.toggle('open');
+				popupCloseBtn.classList.toggle('open');
+				body.classList.toggle('wgt-modal-open');
+				// html.classList.toggle('wgt-modal-open');
 			},
 
 			closePopup() {
 				popup.classList.remove('open');
 				popupOverlay.classList.remove('open');
+				popupCloseBtn.classList.remove('open');
+				body.classList.remove('wgt-modal-open');
+				// html.classList.remove('wgt-modal-open');
 			},
 
 			onPopupBtnClick() {
@@ -588,9 +653,49 @@ document.addEventListener("DOMContentLoaded", function() {
 				});
 			},
 
+			iosPolifilForScroll() {
+				var _overlay = document.querySelector('.wgt-popup');
+				var _clientY = null; // remember Y position on touch start
+
+				_overlay.addEventListener('touchstart', function (event) {
+						if (event.targetTouches.length === 1) {
+								// detect single touch
+								_clientY = event.targetTouches[0].clientY;
+						}
+				}, false);
+
+				_overlay.addEventListener('touchmove', function (event) {
+						if (event.targetTouches.length === 1) {
+								// detect single touch
+								disableRubberBand(event);
+						}
+				}, false);
+
+				function disableRubberBand(event) {
+						var clientY = event.targetTouches[0].clientY - _clientY;
+
+						if (_overlay.scrollTop === 0 && clientY > 0) {
+								// element is at the top of its scroll
+								event.preventDefault();
+						}
+
+						if (isOverlayTotallyScrolled() && clientY < 0) {
+								//element is at the top of its scroll
+								event.preventDefault();
+						}
+				}
+
+				function isOverlayTotallyScrolled() {
+						// https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#Problems_and_solutions
+						return _overlay.scrollHeight - _overlay.scrollTop <= _overlay.clientHeight;
+				}
+			},
+
 			domReady() {
 				fn.addAsyncValToVariables();		
 				fn.initMasonry();
+				
+				spinner.classList.add('hide');
 
 				fn.onPopupBtnClick();
 				fn.onPopupCloseBtnClick();
@@ -601,23 +706,28 @@ document.addEventListener("DOMContentLoaded", function() {
 					}
 				);
 				fn.onWindowresize();
+				fn.iosPolifilForScroll();
 			},
 		};
 
 		fn.addStyleToHead(
 			function() {
-				fn.addScriptToHead(
+				fn.addSpinnerAfterWidgetTarget(
 					function() {
-						fn.addGoogleMapsScriptToHead(
+						fn.addScriptToHead(
 							function() {
-								fn.getItemsData(
+								fn.addGoogleMapsScriptToHead(
 									function() {
-										fn.handleLayout(
-											fn.domReady
-										);
-									}, 
-									getLimit, 
-									getOffset
+										fn.getItemsData(
+											function() {
+												fn.handleLayout(
+													fn.domReady
+												);
+											}, 
+											getLimit, 
+											getOffset
+										)
+									}
 								)
 							}
 						)

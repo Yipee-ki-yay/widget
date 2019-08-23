@@ -96,6 +96,20 @@
             </div>
 
             <div class="wgt-generate-item">
+              <label class="wgt-generate-item__label">
+                <span>Hide logo</span>
+                <input class="wgt-generate__input" name="logo" type="checkbox">
+              </label>
+            </div>
+
+            <div class="wgt-generate-item">
+              <label class="wgt-generate-item__label">
+                <span>Hide border</span>
+                <input class="wgt-generate__input" name="border" type="checkbox">
+              </label>
+            </div>
+
+            <div class="wgt-generate-item">
               <button class="wgt-generate__button">Generate</button>  
             </div>
 
@@ -123,17 +137,59 @@
     (function() {
       const keyInp = document.querySelector('.wgt-generate__input[name=key]');
       const quantityInp = document.querySelector('.wgt-generate__input[name=quantity]');
+      const logoInp = document.querySelector('.wgt-generate__input[name=logo]');
+      const borderInp = document.querySelector('.wgt-generate__input[name=border]');
       const generateForm = document.querySelector('.wgt-generate');
       const forGeneratedLink = document.querySelector('.wgt-generate-render__link');
       const forGeneratedScript = document.querySelector('.wgt-generate-render__script');
+      let generatedLink = null;
+
+      function addDataWgtToTag () {
+        generatedLink.setAttribute('data-wgt-do', 'wgt');
+      };
+
+      function addDataKeyToTag () {
+        let keyInpVal = keyInp.value; 
+        generatedLink.setAttribute('data-wgt-key', keyInpVal);
+      };
+
+      function addDataQuantityToTag () {
+        let quantityInpVal = quantityInp.value;
+        generatedLink.setAttribute('data-wgt-quantity', quantityInpVal);
+      };
+
+      function addDataLogoToTag () {
+        let logoInpVal = logoInp.checked;
+        if ( logoInpVal ) {
+          generatedLink.setAttribute('data-wgt-hide-logo', logoInpVal);
+        }
+      };
+
+      function addDataBorderToTag () {
+        let borderInpVal = borderInp.checked; 
+        if ( borderInpVal ) {
+          generatedLink.setAttribute('data-wgt-hide-border', borderInpVal);
+        }
+      };
 
       generateForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        let keyInpVal = keyInp.value;
-        let quantityInpVal = quantityInp.value;    
+        e.preventDefault();      
+
+        forGeneratedLink.innerHTML = '';
+        generatedLink = document.createElement('a');
+        let tmpParent = document.createElement('div');
+        let generatedLinkStr = '';
+
+        addDataWgtToTag();
+        addDataKeyToTag();
+        addDataQuantityToTag();
+        addDataLogoToTag();
+        addDataBorderToTag();
+
+        tmpParent.appendChild(generatedLink);
+        generatedLinkStr = tmpParent.innerHTML;
         
-        let generatedLink = `&lt;a data-wgt-do="wgt" data-wgt-key="${keyInpVal}" data-wgt-quantity="${quantityInpVal}"&gt;&lt;/a&gt;`;
-        forGeneratedLink.innerHTML = generatedLink;
+        forGeneratedLink.textContent = generatedLinkStr;
 
         forGeneratedScript.innerHTML = `&lt;script type="text/javascript" src="https://jumpy-trip.surge.sh/js/index.min.js"&gt;&lt;/script&gt;`;        
       });

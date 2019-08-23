@@ -1,8 +1,8 @@
-@import "fontsWgt";
+// @import "fontsWgt";
 
-$mainFont: 'SFUIText-Medium';
-$secondaryFont: 'SFUIText-Regular';
-$thirdFont: 'SFUIText-Semibold';
+$mainFont: 'SF UI Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$secondaryFont: 'SF UI Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$thirdFont: 'SF UI Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 $sm: '576px';
 $md: '768px';
@@ -15,13 +15,21 @@ $xxxl: '1600px';
   position: relative;
 
   margin: 0 auto;
+  padding: 20px;
 
-  background-color: #f0f0f2;
+  background-color: transparent;
 
   box-sizing: border-box;
 
   font-family: $mainFont;
   text-align: center;
+}
+
+.wgt--border {
+  border: 1px solid #D9D9D9;
+
+  border-radius: 8px;
+  background-color: #fff;
 }
 
 .wgt *, 
@@ -36,10 +44,6 @@ $xxxl: '1600px';
   @media (min-width: $sm) {
     display: none;
   }
-}
-
-.wgt-header--one-in-row {
-  margin-top: 20px;
 }
 
 .wgt-item {
@@ -69,6 +73,13 @@ $xxxl: '1600px';
 .wgt-item--four-in-row {
   width: 23.75%;
   margin-bottom: 1.66%;
+}
+
+.wgt-item--one-in-row:not(.wgt-item),
+.wgt-item--two-in-row:not(.wgt-item),
+.wgt-item--three-in-row:not(.wgt-item),
+.wgt-item--four-in-row:not(.wgt-item) {
+  display: none;
 }
 
 .wgt-item--one-in-row-gutter {
@@ -153,13 +164,16 @@ $xxxl: '1600px';
     padding: 0;
     border: 0;
     border-radius: 0;
-    background-color: #F0F0F2;
   }
 }
 
 .wgt-header {
   display: flex;
   align-items: center;
+}
+
+.wgt-header--one-in-row {
+  margin-bottom: 20px;
 }
 
 .wgt-header__link {
@@ -194,12 +208,16 @@ $xxxl: '1600px';
   left: 14px;
   bottom: 10px;
 
+  padding-right: 5px;
+
   color: #fff;
 
   font-family: $thirdFont;
+  font-weight: 600;
   font-size: 18px;
   line-height: 21px;
   text-transform: lowercase;
+  text-align: left;
 }
 
 .wgt-item-header__descr:first-letter {
@@ -225,7 +243,7 @@ $xxxl: '1600px';
 .wgt-item-footer {
   padding: 16px 14px;
 
-  background: #fff;
+  background: #F0F0F2;
 
   text-align: left;
 }
@@ -300,7 +318,7 @@ $xxxl: '1600px';
   transition-timing-function: ease-in-out;
 
   font-size: 14px !important;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 14px !important;
   text-transform: capitalize;
   font-family: $mainFont;
@@ -321,12 +339,12 @@ $xxxl: '1600px';
 .wgt-popup {
   position: fixed;
   z-index: 1001;
-  top: 0;
-  padding-top: 40px;
+  top: 50px;
   left: 0;
   bottom: 0;
 
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 
   width: 100%;
 
@@ -341,11 +359,12 @@ $xxxl: '1600px';
     left: 50%;
     transform: translateX(-50%);
     
-    max-width: 750px;
+    width: 100%;
+    max-width: calc(100% - 20px - 20px);
   }
-  
-  @media (min-width: $xxl) {
-    max-width: 1000px;
+
+  @media (min-width: 900px) {
+    max-width: 880px;
   }
 
   @media (min-width: $xxxl) { 
@@ -354,9 +373,7 @@ $xxxl: '1600px';
     bottom: auto;
     transform: translate(-50%, -50%);
     
-    max-width: 1200px;
-
-    overflow-y: initial;
+    max-height: 100%;
   }
 }
 
@@ -396,11 +413,19 @@ $xxxl: '1600px';
 
   .wgt-item-header {
     width: 100%;
+    margin: 0 auto;
+    max-width: 500px;
     border-radius: 0;
     
     @media (min-width: $md) {
-      width: 70%;
+      width: auto;
+      width: 100%;
+      min-width: 350px;
       border-radius: 8px;
+    }
+
+    @media (min-width: $xl) {
+      min-width: 500px;
     }
   }
 
@@ -417,6 +442,8 @@ $xxxl: '1600px';
   .wgt-item-header__descr {
     left: 14px;
     bottom: 14px;
+
+    text-align: left;
 
     @media (min-width: $md) {
       left: 32px;
@@ -468,13 +495,16 @@ $xxxl: '1600px';
 }
 
 .wgt-article {
+  width: 100%;
   
+  background-color: #fff;
   border-radius: 0px;
   overflow: hidden;
   
   text-align: left;
   
   @media (min-width: $md) {
+    min-width: 340px;
     max-width: 340px;
     margin-left: 20px;
     border-radius: 8px;
@@ -502,6 +532,7 @@ $xxxl: '1600px';
 
 .wgt-point__text {
   font-family: $thirdFont;
+  font-weight: 600;
   font-size: 14px;
 }
 
@@ -530,6 +561,7 @@ $xxxl: '1600px';
 .wgt-title {
   font-family: $thirdFont;
   font-size: 20px;
+  font-weight: 600;
   line-height: 24px;
   color: #333333;
 }
@@ -564,26 +596,27 @@ $xxxl: '1600px';
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1001;
 
   width: 100%;
-  height: 40px;
+  height: 50px;
 
-  
   background-color: #fff;
   color: #000;
   border: 0;
   cursor: pointer;
-  
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .2s ease,visibility .2s ease;
 
   font-family: $mainFont;
-  line-height: 40px;
-  font-weight: normal;
+  line-height: 50px;
+  font-weight: 500;
   text-transform: capitalize;
 
   @media (min-width: $md) {
-    position: absolute;
-    top: -30px;
-    right: 0;
+    top: 20px;
+    right: 20px;
     left: auto;
 
     height: 20px;
@@ -593,13 +626,24 @@ $xxxl: '1600px';
 
     line-height: 20px;
   }
+
+  @media (min-width: $xxxl) {
+    top: 30px;
+    right: 30px;
+  }
 }
+
+.wgt-close-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
 .wgt-close-modal::after,
 .wgt-close-modal::before {
   content: '';
   position: absolute;
-  top: 15px;
-  left: 3px;
+  top: 20px;
+  left: 14px;
   
   width: 12px;
   height: 2px;
@@ -607,16 +651,19 @@ $xxxl: '1600px';
   background-color: #4D4D4D;
   
   @media (min-width: $md) {
-    width: 20px;
     top: 8px;
     left: -1px;
+
+    width: 20px;
+
+    background-color: #aaa;
   }
 }
 
 .wgt-close-modal::before {
   transform: rotate(45deg);
 
-  top: 23px;
+  top: 28px;
 
   @media (min-width: $md) {
     top: 8px;
@@ -629,12 +676,16 @@ $xxxl: '1600px';
 
 .wgt-close-modal:hover,
 .wgt-close-modal:focus {
-  background-color: transparent;
+  background-color: #fff;
+
+  @media (min-width: $md) {
+    background-color: transparent;
+  }
 }
 
 .wgt-close-modal__text {
   position: absolute;
-  left: 20px;
+  left: 40px;
   top: 0;
 
   font-size: 14px;
@@ -653,7 +704,7 @@ $xxxl: '1600px';
   width: 100%;
   height: 100%;
 
-  background-color: rgba(255, 255, 255, .7);
+  background-color: rgba(0, 0, 0, .85);
   opacity: 0;
   visibility: hidden;
   transition: opacity .2s ease, visibility .2s ease;
@@ -667,4 +718,35 @@ $xxxl: '1600px';
 .wgt-map {
   min-height: 120px;
   margin-top: 16px;
+}
+
+.wgt-spinner-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+
+  background-color: #fff;
+
+  text-align: center;
+}
+
+.spinner.hide {
+  display: none;
+}
+
+.wgt-spinner {
+  margin-top: 50px;
+
+  max-width: 100px;
+}
+
+.wgt-modal-open {
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  height: 100vh;
+  width: 100%;
 }
